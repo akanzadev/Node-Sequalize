@@ -1,4 +1,4 @@
-/* import { Request, Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { Schema } from 'joi'
 import boom from '@hapi/boom'
 
@@ -8,10 +8,9 @@ const validate = (data:{}, schema:Schema) => {
   return error
 }
 
-export const validationHandler = (schema:Schema, check = 'body') => {
-  return function (req:Request, res:Response, next:NextFunction) {
+export const validationHandler = (schema:Schema, check:string) => {
+  return function (req:Record<string, any> & Request, res:Response, next:NextFunction) {
     const error = validate(req[check], schema)
-    error ? next(boom.badRequest(error)) : next()
+    error ? next(boom.badRequest(error.message)) : next()
   }
 }
- */

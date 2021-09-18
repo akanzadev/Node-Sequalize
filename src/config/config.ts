@@ -3,7 +3,8 @@ import dotenv from 'dotenv'
 dotenv.config({ path: './src/envs/.env' })
 export const config = {
   SERVER: {
-    PORT: process.env.PORT || 8000
+    PORT: process.env.PORT || 8000,
+    MODE: process.env.NODE_ENV || 'DEV'
   },
   DB: {
     DB_HOST: process.env.DB_HOST || 'localhost',

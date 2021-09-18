@@ -1,8 +1,21 @@
-/* const boom = require('@hapi/boom')
-const multer = require('multer')
-const config = require('../../config/config')
+import boom from '@hapi/boom'
+import { Response, Request, NextFunction } from 'express'
+import { config } from '../../config/config'
 
-function withErrorStack (error, stack) {
+// Imprimir errores generados en consola
+export const logErrors = (error : boom.Boom, req:Request, res:Response, next :NextFunction) => {
+  console.error(error.stack)
+  next(error)
+}
+
+// Parsear errores a Boom
+export const wrapErrors = (error : boom.Boom, req:Request, res:Response, next :NextFunction) => {
+  // Convirtiendo error a boom error
+  if (!error.isBoom) next(boom.badImplementation(error.message, null))
+  next(error)
+}
+
+const withErrorStack = (error : {}, stack = 'No have stack for Error') => {
   // Verificar si estamos en producción o desarrollo
   if (config.SERVER.MODE === 'DEV') {
     return { ...error, stack }
@@ -11,37 +24,11 @@ function withErrorStack (error, stack) {
   }
 }
 
-function logErrors (error, req, res, next) {
-  console.error(error.stack)
-  next(error)
-}
-
-function checkMulterError (error, req, res, next) {
-  if (error instanceof multer.MulterError) {
-    next(boom.badRequest(error.message))
-  } else {
-    next(error)
-  }
-}
-
-function wrapErrors (error, req, res, next) {
-  // Convirtiendo error a boom error
-  if (!error.isBoom) next(boom.badImplementation(error.message, null))
-  next(error)
-}
-
-function errorHandler (error, req, res, next) {
+export const errorHandler = (error : boom.Boom, req:Request, res:Response, next :NextFunction) => {
   // Obteniendo payload y statusCode de Error
   const {
     output: { statusCode, payload }
   } = error
+  // Devolver error al cliente
   res.status(statusCode).json(withErrorStack(payload, error.stack))
 }
-
-module.exports = {
-  logErrors,
-  errorHandler,
-  wrapErrors,
-  checkMulterError
-}
- */

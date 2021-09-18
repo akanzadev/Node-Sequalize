@@ -3,6 +3,7 @@ import { config } from '../config/config'
 import userRoutes from '../user/user.routes'
 import cors from 'cors'
 import sequelize from '../db/connection'
+import { errorHandler, logErrors, wrapErrors } from '../utils/middlewares/'
 
 export default class NodeServer {
   private app:Application
@@ -15,6 +16,8 @@ export default class NodeServer {
     this.middlewares()
     // Routes
     this.routes()
+    // Error handler
+    this.setErrorHandlers()
   }
 
   public start () {
@@ -40,6 +43,12 @@ export default class NodeServer {
     } catch (error) {
       console.log('Database online', error)
     }
+  }
+
+  private setErrorHandlers () {
+    this.app.use(logErrors)
+    this.app.use(wrapErrors)
+    this.app.use(errorHandler)
   }
 
   private listen () {
