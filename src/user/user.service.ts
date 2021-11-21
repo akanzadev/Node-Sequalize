@@ -1,12 +1,17 @@
 import { User } from './user.model'
 import boom from '@hapi/boom'
 import { config } from '../config/config'
+import { Op } from 'sequelize'
+import bcryptjs from 'bcryptjs'
+
 interface UserI{
     name: string,
     lastname: string,
     email: string,
-    age: number
+    age: number,
+    password: string,
 }
+
 export const listUsers = async () => {
   const users = await User.findAll()
   if (!users) throw boom.boomify(new Error('No hay usuarios'), { statusCode: 404 })
@@ -20,11 +25,20 @@ export const findOneUser = async (id: string) => {
   return user
 }
 
-export const createOneUser = async (user: UserI) => {
+export const createOneUser = async (userData: UserI) => {
   // Validar email
-  const emailExists = await User.findOne({ where: { email: user.email } })
-  if (emailExists) throw new Error('Email already exists')
-  const newUser = await User.create(user)
+  const user = await User.findOne({
+    where: {
+      [Op.and]: [
+        { email: userData.email },
+        { status: true }
+      ]
+    }
+  })
+  if (user) throw new Error('Email already exists')
+  const salt = bcryptjs.genSaltSync(10)
+  userData.password = bcryptjs.hashSync(userData.password, salt)
+  const newUser = await User.create(userData)
   if (!newUser) throw new Error('User not created')
   return newUser
 }

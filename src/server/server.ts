@@ -1,6 +1,7 @@
 import express, { Application } from 'express'
 import { config } from '../config/config'
 import userRoutes from '../user/user.routes'
+import authRoutes from '../auth/auth.routes'
 import cors from 'cors'
 import sequelize from '../db/connection'
 import { errorHandler, logErrors, wrapErrors } from '../utils/middlewares/'
@@ -26,6 +27,7 @@ export default class NodeServer {
 
   private routes () {
     this.app.use('/api/users', userRoutes)
+    this.app.use('/api/auth', authRoutes)
   }
 
   private middlewares () {

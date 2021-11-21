@@ -1,7 +1,20 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Model } from 'sequelize'
 import Sequelize from '../db/connection'
 
-export const User = Sequelize.define(
+class UserModel extends Model {
+    public id!: number
+    public name!: String
+    public lastname!: string
+    public age!: number
+    public email!: string
+    public password!: string
+    public status!: boolean
+    public image!: string
+    public createdAt!: Date
+    public updatedAt!: Date
+}
+
+export const User = Sequelize.define<UserModel>(
   'user',
   {
     id: {
@@ -25,6 +38,10 @@ export const User = Sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
     status: {
       type: DataTypes.BOOLEAN,
