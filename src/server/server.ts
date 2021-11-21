@@ -39,6 +39,8 @@ export default class NodeServer {
     // Database connection
     try {
       await sequelize.authenticate()
+      await sequelize.sync()
+      console.log('All models were synchronized successfully.')
       console.log('Database online')
     } catch (error) {
       console.log('Database online', error)

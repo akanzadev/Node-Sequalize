@@ -1,11 +1,16 @@
 import { User } from './user.model'
+import boom from '@hapi/boom'
+import { config } from '../config/config'
 interface UserI{
     name: string,
+    lastname: string,
     email: string,
+    age: number
 }
 export const listUsers = async () => {
   const users = await User.findAll()
-  if (!users) throw new Error('No users found')
+  if (!users) throw boom.boomify(new Error('No hay usuarios'), { statusCode: 404 })
+  console.log(config.DB.DB_PORT, config.DB.DB_NAME, config.DB.DB_USER, config.DB.DB_PASS)
   return users
 }
 

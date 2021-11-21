@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  mysql:
+    image: mysql
+    restart: always
+    ports:
+      - "4600:3306"
+    expose:
+      - "4600"
+    environment:
+      MYSQL_ROOT_PASSWORD: "akanza"
+      MYSQL_DATABASE: "node"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "admin"
+    volumes:
+      - ./data:/var/lib/mysql
+    security_opt:
+      - seccomp:unconfined
