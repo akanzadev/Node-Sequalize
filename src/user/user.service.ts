@@ -58,16 +58,16 @@ export const createOneUser = async (userData: UserI) => {
 
 export const updateOneUser = async (id: string, user: UserI) => {
   const userToUpdate = await User.findByPk(id)
-  if (!userToUpdate) throw new Error('User not found')
+  if (!userToUpdate) throw boom.boomify(new Error('No se encontro Usuario con ese ID'), { statusCode: 400 })
   const updatedUser = await userToUpdate.update(user)
-  if (!updatedUser) throw new Error('User not updated')
+  if (!updatedUser) throw boom.boomify(new Error('No se pudo actualizar usuario'), { statusCode: 500 })
   return updatedUser
 }
 
 export const deleteOneUser = async (id: string) => {
   const userToDelete = await User.findByPk(id)
-  if (!userToDelete) throw new Error('User not found')
+  if (!userToDelete) throw boom.boomify(new Error('No se encontro Usuario con ese ID'), { statusCode: 400 })
   const deletedUser = await userToDelete.update({ status: false })
-  if (!deletedUser) throw new Error('User not deleted')
+  if (!deletedUser) throw boom.boomify(new Error('No se pudo eliminar usuario'), { statusCode: 500 })
   return deletedUser
 }

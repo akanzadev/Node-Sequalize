@@ -18,3 +18,11 @@ export const createUserSchema = Joi.object({
   age: userAge.required(),
   password: userPassword.required()
 })
+
+export const updatedUserSchema = Joi.object({
+  name: userLastname.optional(),
+  email: userEmail.optional(),
+  lastname: userLastname.optional(),
+  age: userAge.optional(),
+  password: userPassword.optional()
+})

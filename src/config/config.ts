@@ -12,5 +12,9 @@ export const config = {
     DB_NAME: process.env.DB_NAME || 'node',
     DB_USER: process.env.DB_USER || 'root',
     DB_PASS: process.env.DB_PASS || 'admin'
+  },
+  JWT: {
+    TOKEN_SECRET: process.env.TOKEN_SECRET || 'dev',
+    TOKEN_EXPIRATION: process.env.TOKEN_EXPIRATION || '1h'
   }
 }
