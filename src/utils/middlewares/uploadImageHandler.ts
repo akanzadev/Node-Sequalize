@@ -14,6 +14,7 @@ const uploadImageHandler = async (req:Request & { file:Field }, res:Response, ne
     */
     const { filename, path } = file
     // Enviar imagen a cloudinary
+    // image.jpg => image
     const fileArray = filename.split('.')
     const filenameCloud = fileArray[0]
     const result = await cloudinary.uploader.upload(path, {
