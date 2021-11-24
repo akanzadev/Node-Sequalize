@@ -24,7 +24,7 @@ export const listUsers = async () => {
   return users
 }
 
-export const findOneUser = async (id: number) => {
+export const findOneUser = async (id: number | string) => {
   const user = await User.findOne({
     where: {
       [Op.and]: [
@@ -32,7 +32,7 @@ export const findOneUser = async (id: number) => {
         { status: true }
       ]
     },
-    attributes: ['id', 'name', 'lastname', 'email', 'age', 'status']
+    attributes: ['id', 'name', 'lastname', 'email', 'age', 'image', 'status']
   })
   if (!user) throw boom.boomify(new Error('No se encontro Usuario con ese ID'), { statusCode: 400 })
   return user

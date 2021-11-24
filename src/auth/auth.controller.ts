@@ -4,8 +4,9 @@ export const authSigInUser = async (req :Request, res : Response, next:NextFunct
   try {
     const { body } = req
     const credentials = await login(body)
-    res.status(200).json(
+    res.status(201).json(
       {
+        statusCode: 201,
         message: 'Login Successful',
         data: credentials
       }

@@ -14,7 +14,11 @@ export const getOneUser = async (req: Request, res: Response, next:NextFunction)
   try {
     const { id } = req.params
     const user = await findOneUser(id)
-    res.status(200).json({ user })
+    res.status(200).json({
+      statusCode: 200,
+      message: 'Find a User',
+      data: user
+    })
   } catch (error) {
     next(error)
   }

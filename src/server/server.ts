@@ -3,6 +3,7 @@ import { config } from '../config/config'
 import userRoutes from '../user/user.routes'
 import authRoutes from '../auth/auth.routes'
 import cors from 'cors'
+import morgan from 'morgan'
 import sequelize from '../db/connection'
 import { errorHandler, logErrors, wrapErrors } from '../utils/middlewares/'
 
@@ -31,6 +32,8 @@ export default class NodeServer {
   }
 
   private middlewares () {
+    // Morgan http
+    this.app.use(morgan('dev'))
     // Cors middleware
     this.app.use(cors())
     // Body Parser

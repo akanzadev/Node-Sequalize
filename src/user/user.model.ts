@@ -52,7 +52,7 @@ export const User = Sequelize.define<UserModel>(
       type: DataTypes.STRING,
       allowNull: true,
       defaultValue:
-        'https://res.cloudinary.com/dzqbzqgjw/image/upload/v1589788981/default_user_image_xqjqjy.png'
+        'https://res.cloudinary.com/akanza/image/upload/v1637764584/default/no-image_hxuirf_axfs5n.jpg'
     }
   },
   { timestamps: true }
