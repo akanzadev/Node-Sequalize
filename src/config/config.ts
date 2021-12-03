@@ -16,5 +16,10 @@ export const config = {
   JWT: {
     TOKEN_SECRET: process.env.TOKEN_SECRET || 'dev',
     TOKEN_EXPIRATION: process.env.TOKEN_EXPIRATION || '1h'
+  },
+  CLOUDINARY: {
+    CLOUD_NAME: process.env.CLOUDINARY_NAME || 'akanza',
+    API_KEY: process.env.CLOUDINARY_API_KEY || '12312321312321',
+    API_SECRET: process.env.CLOUDINARY_API_SECRET || 'XEiI1sd3EoR34dfd4YhG_ln4'
   }
 }

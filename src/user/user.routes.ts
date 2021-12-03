@@ -6,8 +6,13 @@ import {
   updateUser,
   deleteUser
 } from './user.controller'
-import { validationHandler } from '../utils/middlewares'
-import { idUserSchema, createUserSchema, updatedUserSchema } from '../utils/schemas'
+import { validationHandler, uploadImageHandler } from '../utils/middlewares'
+import {
+  idUserSchema,
+  createUserSchema,
+  updatedUserSchema
+} from '../utils/schemas'
+import { chargeImageHandler } from '../utils/middlewares/chargeImageHandler'
 
 const router = Router()
 
@@ -15,13 +20,22 @@ router.get('/', getUsers)
 
 router.get('/:id', [validationHandler(idUserSchema, 'params')], getOneUser)
 
-router.post('/', [validationHandler(createUserSchema, 'body')], createUser)
+router.post(
+  '/',
+  [
+    chargeImageHandler,
+    uploadImageHandler,
+    validationHandler(createUserSchema, 'body')
+  ],
+  createUser
+)
 
 router.put(
   '/:id',
   [
     validationHandler(idUserSchema, 'params'),
-    validationHandler(updatedUserSchema, 'body')
+    validationHandler(updatedUserSchema, 'body'),
+    uploadImageHandler
   ],
   updateUser
 )

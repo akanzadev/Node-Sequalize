@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import { Field } from 'multer'
-import fs from 'fs-extra'
-const cloudinary = require('../../config/cloudinary')
-
-const uploadImageHandler = async (req:Request & { file:Field }, res:Response, next:NextFunction) => {
+import cloudinary from '../../config/cloudinary'
+import DatauriParser from 'datauri/parser'
+import boom from '@hapi/boom'
+// import fs from 'fs-extra'
+import path from 'path'
+export const uploadImageHandler = async (req:Request, res:Response, next:NextFunction) => {
   try {
     const { file } = req
     if (!file) return next()
@@ -12,21 +13,26 @@ const uploadImageHandler = async (req:Request & { file:Field }, res:Response, ne
     *const { filename } = file
     *req.body.image = filename
     */
-    const { filename, path } = file
+    // Extraer is fuera local
+    // const { filename, path } = file
+    // Si es Memory Storage
+    const { originalname, buffer } = file
+    // Parsear Buffer a string
+    const parser = new DatauriParser()
+    parser.format(path.extname(originalname), buffer)
+    if (!parser.content) throw boom.boomify(new Error('Error al parsear el archivo buffer a string'))
     // Enviar imagen a cloudinary
     // image.jpg => image
-    const fileArray = filename.split('.')
+    const fileArray = originalname.split('.')
     const filenameCloud = fileArray[0]
-    const result = await cloudinary.uploader.upload(path, {
-      public_id: `rest-node-server/images/${filenameCloud}`
+    const result = await cloudinary.uploader.upload(parser.content, {
+      public_id: `poke-server/users/${filenameCloud}`
     })
     // Eliminando la imagen que multer guardo localmente
-    await fs.unlink(file.path)
+    // await fs.unlink(file.path)
     req.body.image = result.secure_url
     next()
   } catch (error) {
     next(error)
   }
 }
-
-module.exports = { uploadImageHandler }

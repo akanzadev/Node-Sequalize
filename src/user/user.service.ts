@@ -9,6 +9,7 @@ interface UserI{
     email: string,
     age: number,
     password: string,
+    image?:string
 }
 
 export const listUsers = async () => {
