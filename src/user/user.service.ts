@@ -58,9 +58,20 @@ export const createOneUser = async (userData: UserI) => {
 }
 
 export const updateOneUser = async (id: string, user: UserI) => {
-  const userToUpdate = await User.findByPk(id)
-  if (!userToUpdate) throw boom.boomify(new Error('No se encontro Usuario con ese ID'), { statusCode: 400 })
-  const updatedUser = await userToUpdate.update(user)
+  const userToUpdate = await User.findOne({
+    where: {
+      [Op.and]: [
+        { id: id },
+        { status: true }
+      ]
+    }
+  })
+  if (!userToUpdate) throw boom.boomify(new Error('No se encontro el Usuario'), { statusCode: 400 })
+  const updatedUser = await User.update(user, {
+    where: {
+      id: id
+    }
+  })
   if (!updatedUser) throw boom.boomify(new Error('No se pudo actualizar usuario'), { statusCode: 500 })
   return updatedUser
 }

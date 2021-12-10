@@ -23,9 +23,9 @@ router.get('/:id', [validationHandler(idUserSchema, 'params')], getOneUser)
 router.post(
   '/',
   [
+    validationHandler(createUserSchema, 'body'),
     chargeImageHandler,
-    uploadImageHandler,
-    validationHandler(createUserSchema, 'body')
+    uploadImageHandler
   ],
   createUser
 )
@@ -35,6 +35,7 @@ router.put(
   [
     validationHandler(idUserSchema, 'params'),
     validationHandler(updatedUserSchema, 'body'),
+    chargeImageHandler,
     uploadImageHandler
   ],
   updateUser

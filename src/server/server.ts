@@ -36,7 +36,9 @@ export default class NodeServer {
     this.app.use(morgan('dev'))
     // Cors middleware
     this.app.use(cors())
-    // Body Parser
+    // URL Encoded
+    this.app.use(express.urlencoded({ extended: true }))
+    // JSON Encoded
     this.app.use(express.json())
   }
 

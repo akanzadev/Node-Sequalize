@@ -22,9 +22,10 @@ export const createUserSchema = Joi.object({
 })
 
 export const updatedUserSchema = Joi.object({
-  name: userLastname.optional(),
+  name: userName.optional(),
   email: userEmail.optional(),
   lastname: userLastname.optional(),
   age: userAge.optional(),
-  password: userPassword.optional()
+  password: userPassword.optional(),
+  image: userImage.optional()
 })
